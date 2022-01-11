@@ -32,10 +32,11 @@ randomised_dict = {
     'Condition 22': ['Plate_1_F7', 'Plate_2_C7', 'Plate_2_F6', 'Plate_2_G4'], 
     'Condition 9': ['Plate_2_E6', 'Plate_2_F3', 'Plate_2_F8', 'Plate_2_F10']}
 
-df_plate_1 = pd.read_csv(r"C:\Users\shale\hello\Summary_DAPI_9426.csv")
-df_plate_2 = pd.read_csv(r"C:\Users\shale\hello\Summary_DAPI_9427.csv")
+# Reading the macro .csv files and isolating count and plate names
+df_plate_1 = pd.read_csv(r"C:\Users\shale\hello\csv\Summary_DAPI_9426.csv")
+df_plate_2 = pd.read_csv(r"C:\Users\shale\hello\csv\Summary_DAPI_9427.csv")
 total_counts = [i for i in df_plate_1["Count"]] + [i for i in df_plate_2["Count"]]
-plate_1_well_info_raw = [f"Plate_1_" + i[16:19] for i in df_plate_1["Slice"]] # Isolating wells and storing into a string: "Plate_1_B2_"
+plate_1_well_info_raw = [f"Plate_1_" + i[16:19] for i in df_plate_1["Slice"]] # Isolating plate well info from macro .csv and storing into a string: "Plate_1_B2_"'
 
 # Removes any underscores at the end of any plate and well info: "Plate_1_B2"
 plate_1_well_info = []
@@ -53,22 +54,18 @@ for idx, well in enumerate(plate_well_info): # Generates a dictionary of the pla
 
 final_dict = dict()
 
-randomised_condition_list = [i for i in randomised_dict.keys()]
+randomised_condition_list = [i for i in randomised_dict.keys()] # Takes the keys of the master dict and stores in a list to iterate over in subsequent lines
 
 for idx, condition in enumerate(randomised_condition_list):
     master_list = []
-    for i in list(randomised_dict.values()):
+    for quartet in list(randomised_dict.values()): # Iterates over a list of a quartet list of the plate well destinations [[Plate_1_E6, Plate_2_F3, Plate_2_F8, Plate_2_F10], [Plate_1_G10, Plate_2_E2 ]
         sublist = []
-        for x in i:
-            sublist.append(plate_well_dapi_dict[x])
-        master_list.append(sublist)
-    final_dict[condition] = master_list[idx]
+        for each_plate_well in quartet:
+            sublist.append(plate_well_dapi_dict[each_plate_well]) # Uses in each set of four replicate destinations as keys to obtain the Count (value) 
+        master_list.append(sublist) # Appends the list of quartet of counts [1,2,3,4] to a master list e.g. [[1,2,3,4], [3,5,7,9], ...]
+    final_dict[condition] = master_list[idx] # Generates a new final dictionary {"Condition X": [2345, 4353, 5645, 5464] <-- These are DAPI counts}
 
-# sorted_dict = dict()
-
-# sorted_on_condition = sorted(randomised_condition_list, key=lambda x: int(x[-2:]))
-# print(sorted_on_condition)
-
-df = pd.DataFrame(final_dict)
-df.to_csv("output.csv")
+print(plate_well_dapi_dict)
+# df = pd.DataFrame(final_dict)
+# df.to_csv("output.csv")
 
