@@ -87,6 +87,7 @@ def run(protocol: protocol_api.ProtocolContext):
        curr_plate_destinations = [i[0:7] for i in curr_well_destinations_raw] # Isolates the plate destinations i.e. ['Plate_1', 'Plate_1', 'Plate_1', 'Plate_2']
        curr_well_destinations = [i[8:10] for i in curr_well_destinations_raw] # Isolates the well destinations i.e. ['B9', 'D1', 'F6', 'D8']
     
+    # OT2 iterates through condition plate and well destinations 
        p1000.pick_up_tip()
        for each_plate, each_well in zip(curr_plate_destinations,curr_well_destinations):
            if each_plate == "Plate_1":
@@ -103,7 +104,8 @@ def run(protocol: protocol_api.ProtocolContext):
         curr_cntrl_well_destinations_raw = controls_dict[curr_control]
         curr_cntrl_plate_destinations = [i[0:7] for i in curr_cntrl_well_destinations_raw] # Isolates the plate destinations i.e. ['Plate_1', 'Plate_1', 'Plate_1', 'Plate_2']
         curr_cntrl_well_destinations = [i[8:10] for i in curr_cntrl_well_destinations_raw] # Isolates the well destinations i.e. ['B9', 'D1', 'F6', 'D8']
-
+    
+    # OT2 iterates through control plate and well destinations 
         p1000.pick_up_tip()
         for each_plate, each_well in zip(curr_cntrl_plate_destinations,curr_cntrl_well_destinations):
            if each_plate == "Plate_1":
