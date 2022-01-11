@@ -111,5 +111,3 @@ def run(protocol: protocol_api.ProtocolContext):
            else: each_plate = Plate_2
            p1000_transfer_function(DSD_MEDIA_VOLUME, tube_rack_2, idx + 11, each_plate, each_well)
         p1000.drop_tip()
-
-        #hello
