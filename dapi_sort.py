@@ -65,7 +65,16 @@ for idx, condition in enumerate(randomised_condition_list):
         master_list.append(sublist) # Appends the list of quartet of counts [1,2,3,4] to a master list e.g. [[1,2,3,4], [3,5,7,9], ...]
     final_dict[condition] = master_list[idx] # Generates a new final dictionary {"Condition X": [2345, 4353, 5645, 5464] <-- These are DAPI counts}
 
-print(plate_well_dapi_dict)
-# df = pd.DataFrame(final_dict)
-# df.to_csv("output.csv")
+iso_conditions = [i for i in final_dict.keys() if len(i) == 12] + [i for i in final_dict.keys() if len(i) == 11] # Single + double digit conditions
+iso_controls = [i for i in final_dict.keys() if "Control" in i] # Try using a filter function maybe?
+
+sorted_keys = sorted(iso_conditions, key=lambda x: int(x[10:12])) + sorted(iso_controls, key=lambda x: int(x[8]))
+
+sorted_dict = dict()
+
+for curr_cond_cont in sorted_keys:
+    sorted_dict[curr_cond_cont] = final_dict[curr_cond_cont]
+
+df = pd.DataFrame(sorted_dict)
+df.to_csv("output.csv")
 
