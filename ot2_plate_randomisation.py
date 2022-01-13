@@ -1,7 +1,8 @@
 from opentrons import protocol_api
 from opentrons.commands.commands import drop_tip, pick_up_tip
 
-# metadata
+# This OT2 protocol dispenses each of the 30 conditions/controls into random locations across 2 x 96 well plates as per a randomised dictionary
+
 metadata = {
     'protocolName': 'OT2 Plate Randomisation',
     'author': 'Name <shaleen@vowfood.com>',
@@ -9,7 +10,7 @@ metadata = {
     'apiLevel': '2.9'
 }
 
-randomised_dict = {
+randomised_dict = { # A randomised dictionary consisting of conditions/controls and their respective destinations across 2 x 96 well plates
     'Control 2': ['Plate_1_B2', 'Plate_1_D8', 'Plate_2_E5', 'Plate_2_F5'], 
     'Condition 8': ['Plate_1_B3', 'Plate_1_B7', 'Plate_1_G7', 'Plate_2_C6'], 
     'Condition 7': ['Plate_1_B4', 'Plate_1_E3', 'Plate_1_E11', 'Plate_2_G5'], 
